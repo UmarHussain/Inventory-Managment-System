@@ -34,7 +34,7 @@ public class InventoryController {
 	}
 	
 	@GetMapping("/get/{inventoryId}")
-	ResponseEntity<InventoryDTO> createInventory(@PathVariable(name ="inventoryId") Long id) {
+	ResponseEntity<InventoryDTO> getInventory(@PathVariable(name ="inventoryId") Long id) {
 		LOGGER.info("Fetching Inventory by Id :" + id);
 		if(!ValidationUtils.validateInventoryId(id)) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);

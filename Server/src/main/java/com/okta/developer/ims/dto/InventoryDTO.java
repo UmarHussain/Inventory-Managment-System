@@ -1,18 +1,10 @@
 package com.okta.developer.ims.dto;
 
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-
-import com.okta.developer.ims.enums.InventoryTypes;
-import com.okta.developer.ims.model.InventoryType;
-
 import lombok.Builder;
-import lombok.Data;
 
-//@Data
+import java.io.Serializable;
+
 @Builder
 public class InventoryDTO implements Serializable{	
 	private String name;
