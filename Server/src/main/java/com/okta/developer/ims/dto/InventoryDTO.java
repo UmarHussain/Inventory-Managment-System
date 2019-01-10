@@ -3,12 +3,16 @@ package com.okta.developer.ims.dto;
 
 import lombok.Builder;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Builder
-public class InventoryDTO implements Serializable{	
+public class InventoryDTO implements Serializable{
+	@NotNull
 	private String name;
+	@NotNull
 	private Long quantity;
+	@NotNull
 	private String inventoryType;
 	public String getName() {
 		return name;

@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "inventory_type")
 @Data
 public class InventoryType {
+
 	@Id
-	@Column(name = "id")
+	@Column(name = "id",columnDefinition = "INTEGER(11)")
 	private long id;
+
 	@Column(name = "type")
 	private String type;
 }

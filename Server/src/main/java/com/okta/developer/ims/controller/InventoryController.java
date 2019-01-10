@@ -24,24 +24,24 @@ public class InventoryController {
 	@PostMapping("/create")
 	ResponseEntity<InventoryDTO> createInventory(@RequestBody InventoryDTO inventoryDTO) {
 		LOGGER.info("Creating invenotry");
-		if(!ValidationUtils.validateInventoryDTO(inventoryDTO)) {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		if (ValidationUtils.validateInventoryDTO(inventoryDTO)) {
+			return Optional.ofNullable(inventoryDTO)
+                    .map(inventoryService::createInventory)
+                    .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
+                    .get();
 		}
-		return Optional.ofNullable(inventoryDTO)
-				.map(inventoryService::createInventory)
-				.map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
-				.get();
+		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 	}
 	
 	@GetMapping("/get/{inventoryId}")
 	ResponseEntity<InventoryDTO> getInventory(@PathVariable(name ="inventoryId") Long id) {
 		LOGGER.info("Fetching Inventory by Id :" + id);
-		if(!ValidationUtils.validateInventoryId(id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		if (ValidationUtils.validateInventoryId(id)) {
+			return Optional.ofNullable(id)
+                    .map(inventoryService::getInventoryById)
+                    .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+                    .get();
 		}
-		return Optional.ofNullable(id)
-				.map(inventoryService::getInventoryById)
-				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
-				.get();
+		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 	}
 }
