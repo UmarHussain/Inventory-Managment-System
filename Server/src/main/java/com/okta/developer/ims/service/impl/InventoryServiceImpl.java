@@ -1,8 +1,8 @@
 package com.okta.developer.ims.service.impl;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
+import com.okta.developer.ims.utils.Adapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,40 +21,51 @@ import com.okta.developer.ims.utils.DTOConversionUtils;
 public class InventoryServiceImpl implements InventoryService {
 
 	private static final Logger LOGGER = LogManager.getLogger(InventoryServiceImpl.class);
-	
+
 	@Autowired
 	private InventoryRepository inventoryRepository;
 
 	@Autowired
 	private InventoryTypeRepository inventoryTypeRepository;
-	
+
 	@Override
 	public InventoryDTO createInventory(InventoryDTO inventoryDTO) {
 		LOGGER.info("starting createInventory method of InventoryServiceImpl");
 		InventoryType inventoryType = inventoryTypeRepository.findByType(inventoryDTO.getInventoryType());
-		Inventory inventory = DTOConversionUtils.convertInventoryDTOToInventory(inventoryDTO);
+		Inventory inventory = Adapter.getInstance().convert(inventoryDTO, Inventory.class);
+		inventory.setEnabled(Constants.ENABLED);
 		inventory.setInventoryType(inventoryType);
-		return DTOConversionUtils.convertInventoryToInventoryDTO(inventoryRepository.save(inventory));
+		return Adapter.getInstance().convert(inventoryRepository.save(inventory), InventoryDTO.class);
 	}
 
 	@Override
 	public InventoryDTO getInventoryById(Long inventoryId) {
 		return Optional.ofNullable(inventoryId)
-			.map(e->inventoryRepository.findByIdAndEnabled(e, Constants.ENABLED))
-			.map(DTOConversionUtils::convertInventoryToInventoryDTO)
-			.get();
+				.map(e -> inventoryRepository.findByIdAndEnabled(e, Constants.ENABLED))
+				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
+				.get();
 	}
 
 	@Override
-	public void updateInventory(Inventory inventory) {
-		// TODO Auto-generated method stub
-		
+	public InventoryDTO updateInventory(InventoryDTO inventoryDTO) {
+		LOGGER.info("starting updateInventory method of InventoryServiceImpl");
+		Inventory savedEntity = inventoryRepository.findByIdAndEnabled(inventoryDTO.getInventoryId(), Constants.ENABLED);
+		Adapter.getInstance().convert(inventoryDTO, savedEntity);
+		return Optional.ofNullable(savedEntity)
+				.map(inventoryRepository::save)
+				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
+				.get();
 	}
 
 	@Override
-	public void deleteInventory(Inventory inventory) {
-		// TODO Auto-generated method stub
-		
+	public InventoryDTO deleteInventory(Long inventoryId) {
+		LOGGER.info("starting deleteInventory method of InventoryServiceImpl");
+		Inventory savedEntity = inventoryRepository.findByIdAndEnabled(inventoryId, Constants.ENABLED);
+		savedEntity.setEnabled(Constants.DISABLED);
+		return Optional.ofNullable(savedEntity)
+				.map(inventoryRepository::save)
+				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
+				.get();
 	}
 
 }

@@ -44,4 +44,26 @@ public class InventoryController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 	}
+
+	@PostMapping("/update")
+	ResponseEntity<InventoryDTO> updateInventory(@RequestBody InventoryDTO inventoryDTO) {
+		LOGGER.info("Updating Inventory");
+		return Optional.ofNullable(inventoryDTO)
+				.map(inventoryService::updateInventory)
+				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.get();
+	}
+
+	@DeleteMapping("/delete")
+	ResponseEntity<InventoryDTO> deleteInventory(@RequestBody InventoryDTO inventoryDTO) {
+		Long inventoryId = inventoryDTO.getInventoryId();
+		LOGGER.info("Deleting Inventory for ID :" + inventoryId);
+		if (inventoryId == null || inventoryId == 0L) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		return Optional.ofNullable(inventoryId)
+				.map(inventoryService::deleteInventory)
+				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.get();
+	}
 }

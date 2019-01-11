@@ -8,7 +8,7 @@ public interface InventoryService {
 
 	public InventoryDTO getInventoryById(Long inventoryId);
 
-	public void updateInventory(Inventory inventory);
+	public InventoryDTO updateInventory(InventoryDTO inventoryDTO);
 
-	public void deleteInventory(Inventory inventory);
+	public InventoryDTO deleteInventory(Long inventoryId);
 }
