@@ -3,6 +3,7 @@ package com.okta.developer.ims.utils;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.okta.developer.ims.exception.BaseException;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
 
@@ -12,18 +13,51 @@ import com.okta.developer.ims.enums.InventoryTypes;
 public class ValidationUtils {
 	
 	private ValidationUtils() {}
-	
-	public static Boolean validateInventoryDTO(InventoryDTO inventoryDTO) {
-	 	return Optional.ofNullable(inventoryDTO)
-				.filter(e -> !StringUtils.isEmpty(e.getName()))
-				.filter(e -> !Objects.isNull(e.getQuantity()))
-				.filter(e -> !Objects.isNull(e.getInventoryType()))
-				.filter(e -> EnumUtils.isValidEnum(InventoryTypes.class, e.getInventoryType()))
-				.isPresent();
+
+	public static void validateInventoryDTO(InventoryDTO inventoryDTO) throws BaseException {
+		validateInventoryName(inventoryDTO.getName());
+		validateInventoryQuantity(inventoryDTO.getQuantity());
+		validateInventoryType(inventoryDTO.getInventoryType());
 	}
 
-	public static Boolean validateInventoryId(Long id) {
-		return Optional.ofNullable(id)
-						.isPresent();
+	public static void validateInventoryName(String name) throws BaseException {
+		Optional.ofNullable(name)
+				.filter(ValidationUtils::isStringNotEmpty)
+				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
+						           new String[]{Constants.ModelFields.INVENTORY_NAME}));
+	}
+
+	public static void validateInventoryQuantity(Long quantity) throws BaseException {
+		Optional.ofNullable(quantity)
+				.filter(ValidationUtils::isObjectNotNull)
+				.filter(ValidationUtils::isPositive)
+				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
+						           new String[]{Constants.ModelFields.INVENTORY_QUANTITY}));
+	}
+
+	public static void validateInventoryType(String type) throws BaseException {
+		Optional.ofNullable(type)
+				.filter(ValidationUtils::isStringNotEmpty)
+				.filter(e -> EnumUtils.isValidEnum(InventoryTypes.class, e))
+				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
+						           new String[]{Constants.ModelFields.INVENTORY_TYPE}));
+	}
+
+	public static void validateInventoryId(Long id) throws BaseException {
+		Optional.ofNullable(id)
+				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
+						           new String[]{Constants.ModelFields.INVENTORY_TYPE}));
+	}
+
+	public static Boolean isStringNotEmpty(String string){
+		return !StringUtils.isEmpty(string);
+	}
+
+	public static Boolean isObjectNotNull(Object object){
+		return !Objects.isNull(object);
+	}
+
+	public static Boolean isPositive(Long number){
+		return number >= 0;
 	}
 }

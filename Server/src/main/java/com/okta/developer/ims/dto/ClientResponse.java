@@ -1,5 +1,7 @@
 package com.okta.developer.ims.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ import java.io.Serializable;
  * @author mwasif
  *
  * */
+@Data
 public class ClientResponse<T> implements Serializable {
     private Message message;
     private T data;

@@ -37,4 +37,10 @@ public class Message implements Serializable {
         this.key = key;
         this.description = description;
     }
+
+    public Message(String key, String description, String type) {
+        this.key = key;
+        this.description = description;
+        this.type = type;
+    }
 }

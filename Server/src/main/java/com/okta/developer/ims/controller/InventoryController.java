@@ -1,6 +1,7 @@
 package com.okta.developer.ims.controller;
 
 import com.okta.developer.ims.dto.InventoryDTO;
+import com.okta.developer.ims.exception.BaseException;
 import com.okta.developer.ims.service.InventoryService;
 import com.okta.developer.ims.utils.ValidationUtils;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -22,27 +24,23 @@ public class InventoryController {
 	private InventoryService inventoryService;
 	
 	@PostMapping("/create")
-	ResponseEntity<InventoryDTO> createInventory(@RequestBody InventoryDTO inventoryDTO) {
+	ResponseEntity<InventoryDTO> createInventory(@RequestBody InventoryDTO inventoryDTO) throws BaseException {
 		LOGGER.info("Creating invenotry");
-		if (ValidationUtils.validateInventoryDTO(inventoryDTO)) {
-			return Optional.ofNullable(inventoryDTO)
-                    .map(inventoryService::createInventory)
-                    .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
-                    .get();
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		ValidationUtils.validateInventoryDTO(inventoryDTO);
+		return Optional.ofNullable(inventoryDTO)
+				.map(inventoryService::createInventory)
+				.map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
+				.get();
 	}
-	
+
 	@GetMapping("/get/{inventoryId}")
-	ResponseEntity<InventoryDTO> getInventory(@PathVariable(name ="inventoryId") Long id) {
+	ResponseEntity<InventoryDTO> getInventory(@PathVariable(name = "inventoryId") Long id) throws BaseException {
 		LOGGER.info("Fetching Inventory by Id :" + id);
-		if (ValidationUtils.validateInventoryId(id)) {
-			return Optional.ofNullable(id)
-                    .map(inventoryService::getInventoryById)
-                    .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
-                    .get();
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		ValidationUtils.validateInventoryId(id);
+		return Optional.ofNullable(id)
+				.map(inventoryService::getInventoryById)
+				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.get();
 	}
 
 	@PostMapping("/update")
@@ -55,12 +53,10 @@ public class InventoryController {
 	}
 
 	@DeleteMapping("/delete")
-	ResponseEntity<InventoryDTO> deleteInventory(@RequestBody InventoryDTO inventoryDTO) {
+	ResponseEntity<InventoryDTO> deleteInventory(@RequestBody InventoryDTO inventoryDTO) throws BaseException {
 		Long inventoryId = inventoryDTO.getInventoryId();
 		LOGGER.info("Deleting Inventory for ID :" + inventoryId);
-		if (inventoryId == null || inventoryId == 0L) {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-		}
+		ValidationUtils.validateInventoryId(inventoryId);
 		return Optional.ofNullable(inventoryId)
 				.map(inventoryService::deleteInventory)
 				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
