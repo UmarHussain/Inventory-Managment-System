@@ -16,5 +16,14 @@ public class Constants {
 
     public static class MessageType {
         public static final String ERROR = "ERROR";
+        public static final String INFO = "INFO";
+        public static final String SUCCESS = "SUCCESS";
+    }
+
+    public static class UserMessage {
+        public static final String DATA_CREATED = "DATA_CREATED";
+        public static final String DATA_RETRIEVED = "DATA_RETRIEVED";
+        public static final String DATA_UPDATED = "DATA_UPDATED";
+        public static final String DATA_DELETED = "DATA_DELETED";
     }
 }
