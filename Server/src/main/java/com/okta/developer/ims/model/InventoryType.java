@@ -1,9 +1,6 @@
 package com.okta.developer.ims.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +13,7 @@ public class InventoryType {
 
 	@Id
 	@Column(name = "id",columnDefinition = "INTEGER(11)")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@Column(name = "type")

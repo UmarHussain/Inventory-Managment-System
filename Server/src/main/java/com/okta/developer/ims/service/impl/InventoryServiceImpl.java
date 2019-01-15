@@ -53,8 +53,7 @@ public class InventoryServiceImpl implements InventoryService {
 	public InventoryDTO updateInventory(InventoryDTO inventoryDTO) {
 		LOGGER.info("starting updateInventory method of InventoryServiceImpl");
 		Inventory savedEntity = inventoryRepository.findByIdAndEnabled(inventoryDTO.getInventoryId(), Constants.ENABLED);
-		Adapter.getInstance().convert(inventoryDTO, savedEntity);
-		this.setInventoryType(savedEntity, inventoryDTO.getInventoryType());
+		updateInventory(savedEntity, inventoryDTO);
 		return Optional.ofNullable(savedEntity)
 				.map(inventoryRepository::save)
 				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
@@ -81,10 +80,27 @@ public class InventoryServiceImpl implements InventoryService {
 							.collect(Collectors.toList());
 	}
 
-	private void setInventoryType(Inventory entity, String inventoryType){
-		if(ValidationUtils.isObjectNotNull(inventoryType)) {
+	private void setInventoryType(Inventory entity, String inventoryType) {
+		if (ValidationUtils.isObjectNotNull(inventoryType)) {
 			entity.setInventoryType(inventoryTypeRepository.findByType(inventoryType));
 		}
 	}
 
+	private void setInventoryName(Inventory entity, String name) {
+		if (ValidationUtils.isStringNotEmpty(name)) {
+			entity.setName(name);
+		}
+	}
+
+	private void setInventoryQuantity(Inventory entity, Long quantity) {
+		if (ValidationUtils.isObjectNotNull(quantity)) {
+			entity.setQuantity(quantity);
+		}
+	}
+
+	private void updateInventory(Inventory entity, InventoryDTO inventoryDTO) {
+		setInventoryQuantity(entity, inventoryDTO.getQuantity());
+		setInventoryName(entity, inventoryDTO.getName());
+		setInventoryType(entity, inventoryDTO.getInventoryType());
+	}
 }
