@@ -1,8 +1,12 @@
 package com.okta.developer.ims.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.okta.developer.ims.utils.Adapter;
+import com.okta.developer.ims.utils.ValidationUtils;
+import com.okta.developer.ims.utils.factory.InventorySpecificationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +54,7 @@ public class InventoryServiceImpl implements InventoryService {
 		LOGGER.info("starting updateInventory method of InventoryServiceImpl");
 		Inventory savedEntity = inventoryRepository.findByIdAndEnabled(inventoryDTO.getInventoryId(), Constants.ENABLED);
 		Adapter.getInstance().convert(inventoryDTO, savedEntity);
+		this.setInventoryType(savedEntity, inventoryDTO.getInventoryType());
 		return Optional.ofNullable(savedEntity)
 				.map(inventoryRepository::save)
 				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
@@ -65,6 +70,21 @@ public class InventoryServiceImpl implements InventoryService {
 				.map(inventoryRepository::save)
 				.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
 				.get();
+	}
+
+	@Override
+	public List<InventoryDTO> searchInventory(InventoryDTO inventoryDTO) {
+		LOGGER.info("starting searchInventory method of InventoryServiceImpl");
+		List<Inventory> savedEntities = inventoryRepository.findAll(InventorySpecificationFactory.searchInventory(inventoryDTO));
+		return savedEntities.parallelStream()
+							.map(e -> Adapter.getInstance().convert(e, InventoryDTO.class))
+							.collect(Collectors.toList());
+	}
+
+	private void setInventoryType(Inventory entity, String inventoryType){
+		if(ValidationUtils.isObjectNotNull(inventoryType)) {
+			entity.setInventoryType(inventoryTypeRepository.findByType(inventoryType));
+		}
 	}
 
 }

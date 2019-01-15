@@ -9,9 +9,9 @@ public class Constants {
     }
 
     public static class ModelFields {
-        public static final String INVENTORY_NAME = "INVENTORY_NAME";
-        public static final String INVENTORY_QUANTITY = "INVENTORY_QUANTITY";
-        public static final String INVENTORY_TYPE = "INVENTORY_TYPE";
+        public static final String INVENTORY_NAME = "name";
+        public static final String INVENTORY_QUANTITY = "quantity";
+        public static final String INVENTORY_TYPE = "inventoryType";
     }
 
     public static class MessageType {
@@ -25,5 +25,12 @@ public class Constants {
         public static final String DATA_RETRIEVED = "DATA_RETRIEVED";
         public static final String DATA_UPDATED = "DATA_UPDATED";
         public static final String DATA_DELETED = "DATA_DELETED";
+    }
+
+    public static class ModelSQLFields {
+        public static final String INVENTORY_NAME = "name";
+        public static final String INVENTORY_QUANTITY = "quantity";
+        public static final String INVENTORY_TYPE = "type";
+        public static final String INVENTORY_ENABLED = "enabled";
     }
 }

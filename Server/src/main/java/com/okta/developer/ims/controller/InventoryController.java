@@ -4,13 +4,14 @@ import com.okta.developer.ims.dto.ClientResponse;
 import com.okta.developer.ims.dto.InventoryDTO;
 import com.okta.developer.ims.exception.BaseException;
 import com.okta.developer.ims.service.InventoryService;
-import com.okta.developer.ims.utils.ClientResponseFactory;
+import com.okta.developer.ims.utils.factory.ClientResponseFactory;
 import com.okta.developer.ims.utils.ValidationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.okta.developer.ims.utils.Constants.UserMessage.*;
@@ -62,5 +63,14 @@ public class InventoryController {
 						.map(inventoryService::deleteInventory)
 						.map(response -> ClientResponseFactory.getClientResponse(DATA_DELETED, response))
 						.get();
+	}
+
+	@PostMapping("/search")
+	ClientResponse<List<InventoryDTO>> searchInventory(@RequestBody InventoryDTO inventoryDTO) throws BaseException {
+		LOGGER.info("Searching invenotry {}", inventoryDTO);
+		return Optional.ofNullable(inventoryDTO)
+				.map(inventoryService::searchInventory)
+				.map(response -> ClientResponseFactory.getClientResponse(DATA_RETRIEVED, response))
+				.get();
 	}
 }

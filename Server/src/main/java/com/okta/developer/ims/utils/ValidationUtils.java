@@ -37,8 +37,7 @@ public class ValidationUtils {
 
 	public static void validateInventoryType(String type) throws BaseException {
 		Optional.ofNullable(type)
-				.filter(ValidationUtils::isStringNotEmpty)
-				.filter(e -> EnumUtils.isValidEnum(InventoryTypes.class, e))
+				.filter(ValidationUtils::isValidInventoryType)
 				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
 						           new String[]{Constants.ModelFields.INVENTORY_TYPE}));
 	}
@@ -59,5 +58,12 @@ public class ValidationUtils {
 
 	public static Boolean isPositive(Long number){
 		return number >= 0;
+	}
+
+	public static Boolean isValidInventoryType(String type){
+		return Optional.ofNullable(type)
+						.filter(ValidationUtils::isStringNotEmpty)
+						.filter(e -> EnumUtils.isValidEnum(InventoryTypes.class, e))
+						.isPresent();
 	}
 }

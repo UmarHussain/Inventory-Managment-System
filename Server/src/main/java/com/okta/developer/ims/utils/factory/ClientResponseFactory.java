@@ -1,4 +1,4 @@
-package com.okta.developer.ims.utils;
+package com.okta.developer.ims.utils.factory;
 
 import com.okta.developer.ims.dto.ClientResponse;
 import com.okta.developer.ims.dto.Message;
