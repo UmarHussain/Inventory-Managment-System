@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static com.okta.developer.ims.utils.Constants.UserMessage.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/inventoryService/v1")
 public class InventoryController {
