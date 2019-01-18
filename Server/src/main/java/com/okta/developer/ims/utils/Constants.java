@@ -6,12 +6,14 @@ public class Constants {
 
     public static class ErrorMessage {
         public static final String MANDATORY_DATA = "MANDATORY_DATA";
+        public static final String DUPLICATE_DATA = "DUPLICATE_DATA";
     }
 
     public static class ModelFields {
         public static final String INVENTORY_NAME = "name";
         public static final String INVENTORY_QUANTITY = "quantity";
         public static final String INVENTORY_TYPE = "inventoryType";
+        public static final String USER_NAME = "userName";
     }
 
     public static class MessageType {

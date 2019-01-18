@@ -19,4 +19,16 @@
         <class-a>com.okta.developer.ims.model.Inventory</class-a>
         <class-b>com.okta.developer.ims.model.Inventory</class-b>
     </mapping>
+    <mapping map-null="false">
+        <class-a>com.okta.developer.ims.model.User</class-a>
+        <class-b>com.okta.developer.ims.dto.UserDTO</class-b>
+        <field>
+            <a>id</a>
+            <b>userId</b>
+        </field>
+        <field>
+            <a>userRole.userRole</a>
+            <b>userRole</b>
+        </field>
+    </mapping>
 </mappings>

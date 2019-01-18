@@ -3,6 +3,7 @@ package com.okta.developer.ims.utils;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.okta.developer.ims.dto.UserDTO;
 import com.okta.developer.ims.exception.BaseException;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
@@ -66,4 +67,13 @@ public class ValidationUtils {
 						.filter(e -> EnumUtils.isValidEnum(InventoryTypes.class, e))
 						.isPresent();
 	}
+
+//	public static void validateUser(UserDTO userDTO) throws BaseException {
+//		Optional.ofNullable(userDTO)
+//				.filter(e -> ValidationUtils.isStringNotEmpty(e.getUserName()))
+//				.filter(e -> ValidationUtils.isStringNotEmpty(e.getPassword()))
+//				.filter(e -> ValidationUtils.)
+//				.orElseThrow(() -> new BaseException(Constants.ErrorMessage.MANDATORY_DATA,
+//						new String[]{Constants.ModelFields.INVENTORY_TYPE}));
+//	}
 }
