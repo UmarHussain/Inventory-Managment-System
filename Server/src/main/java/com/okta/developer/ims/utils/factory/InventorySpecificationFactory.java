@@ -5,7 +5,7 @@ import com.okta.developer.ims.model.Inventory;
 import com.okta.developer.ims.utils.Constants;
 import com.okta.developer.ims.utils.Constants.ModelFields;
 import com.okta.developer.ims.utils.Constants.ModelSQLFields;
-import com.okta.developer.ims.utils.ValidationUtils;
+import com.okta.developer.ims.utils.validation.ValidationUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

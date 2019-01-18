@@ -1,10 +1,10 @@
-package com.okta.developer.ims.utils;
+package com.okta.developer.ims.utils.validation;
 
 import java.util.Objects;
 import java.util.Optional;
 
-import com.okta.developer.ims.dto.UserDTO;
 import com.okta.developer.ims.exception.BaseException;
+import com.okta.developer.ims.utils.Constants;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
 

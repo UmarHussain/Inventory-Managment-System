@@ -5,7 +5,7 @@ import com.okta.developer.ims.dto.InventoryDTO;
 import com.okta.developer.ims.exception.BaseException;
 import com.okta.developer.ims.service.InventoryService;
 import com.okta.developer.ims.utils.factory.ClientResponseFactory;
-import com.okta.developer.ims.utils.ValidationUtils;
+import com.okta.developer.ims.utils.validation.ValidationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

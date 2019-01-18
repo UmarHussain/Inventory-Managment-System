@@ -10,8 +10,8 @@ import com.okta.developer.ims.service.UserService;
 import com.okta.developer.ims.utils.Adapter;
 import com.okta.developer.ims.utils.Constants;
 import com.okta.developer.ims.utils.Constants.ModelFields;
-import com.okta.developer.ims.utils.ValidationUtils;
 
+import com.okta.developer.ims.utils.validation.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
                        .map(e -> Adapter.getInstance().convert(e, User.class))
                        .map(e -> {
                              e.setUserRole(userRole);
+                             e.setPassword(UserUtil.hashPassword(e.getPassword()));
                              e.setEnabled(Constants.ENABLED);
                              return userRepository.save(e); })
                        .map(e -> Adapter.getInstance().convert(e, UserDTO.class))

@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.okta.developer.ims.utils.Adapter;
-import com.okta.developer.ims.utils.ValidationUtils;
+import com.okta.developer.ims.utils.validation.ValidationUtils;
 import com.okta.developer.ims.utils.factory.InventorySpecificationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

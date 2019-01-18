@@ -5,7 +5,6 @@ import com.okta.developer.ims.dto.UserDTO;
 import com.okta.developer.ims.exception.BaseException;
 import com.okta.developer.ims.exception.ServiceException;
 import com.okta.developer.ims.service.UserService;
-import com.okta.developer.ims.utils.ValidationUtils;
 import com.okta.developer.ims.utils.factory.ClientResponseFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
