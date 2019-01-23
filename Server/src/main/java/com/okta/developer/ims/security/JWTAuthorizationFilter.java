@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.okta.developer.ims.utils.validation.ValidationUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,26 +19,20 @@ import java.util.ArrayList;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    @Value("${jwt.token.header}")
-    private String tokenHeader = "Authorization";
+    private Environment env;
 
-    @Value("jwt.token.secret")
-    private String tokenSecret = "SecretKeyToGenJWTs";
-
-    @Value("jwt.token.prefix")
-    private String tokenPrefix = "Bearer ";
-
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, Environment env) {
         super(authenticationManager);
+        this.env = env;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(tokenHeader);
+        String header = req.getHeader(env.getProperty("jwt.token.header"));
 
-        if (header == null || !header.startsWith(tokenPrefix)) {
+        if (header == null || !header.startsWith(env.getProperty("jwt.token.prefix"))) {
             chain.doFilter(req, res);
             return;
         }
@@ -49,11 +44,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-        String token = req.getHeader(tokenHeader);
+        String token = req.getHeader(env.getProperty("jwt.token.header"));
         if (ValidationUtils.isStringNotEmpty(token)) {
-            String user = JWT.require(Algorithm.HMAC512(tokenSecret.getBytes()))
+            String user = JWT.require(Algorithm.HMAC512(env.getProperty("jwt.token.secret").getBytes()))
                             .build()
-                            .verify(token.replace(tokenPrefix, ""))
+                            .verify(token.replace(env.getProperty("jwt.token.prefix"), ""))
                             .getSubject();
             if(user != null){
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());

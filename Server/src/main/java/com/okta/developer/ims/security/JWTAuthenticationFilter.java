@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okta.developer.ims.model.ApplcationUser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,22 +23,13 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Value("jwt.token.header")
-    private String tokenHeader = "Authorization";
-
-    @Value("jwt.token.secret")
-    private String tokenSecret = "SecretKeyToGenJWTs";
-
-    @Value("{jwt.token.prefix}")
-    private String tokenPrefix = "Bearer ";
-
-    @Value("{jwt.token.expiration.time}")
-    private String tokenExpirationTime = "864000000";
-
     private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private Environment env;
+
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, Environment env) {
         this.authenticationManager = authenticationManager;
+        this.env = env;
     }
 
     @Override
@@ -60,8 +52,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException, ServletException {
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Long.valueOf(tokenExpirationTime)))
-                .sign(HMAC512(tokenSecret.getBytes()));
-        res.addHeader(tokenHeader, tokenPrefix + token);
+                .withExpiresAt(new Date(System.currentTimeMillis() + Long.valueOf(env.getProperty("jwt.token.expiration.time"))))
+                .sign(HMAC512(env.getProperty("jwt.token.secret").getBytes()));
+        res.addHeader(env.getProperty("jwt.token.header"), env.getProperty("jwt.token.prefix") + token);
     }
 }
