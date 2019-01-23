@@ -2,14 +2,14 @@ package com.okta.developer.ims.service.impl;
 
 import com.okta.developer.ims.dto.UserDTO;
 import com.okta.developer.ims.exception.ServiceException;
-import com.okta.developer.ims.model.User;
+import com.okta.developer.ims.model.ApplcationUser;
 import com.okta.developer.ims.model.UserRole;
 import com.okta.developer.ims.repository.UserRepository;
 import com.okta.developer.ims.repository.UserRoleRepository;
 import com.okta.developer.ims.service.UserService;
 import com.okta.developer.ims.utils.Adapter;
-import com.okta.developer.ims.utils.Constants;
-import com.okta.developer.ims.utils.Constants.ModelFields;
+import com.okta.developer.ims.utils.constants.Constants;
+import com.okta.developer.ims.utils.constants.Constants.ModelFields;
 
 import com.okta.developer.ims.utils.validation.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.okta.developer.ims.utils.Constants.ErrorMessage.DUPLICATE_DATA;
+import static com.okta.developer.ims.utils.constants.Constants.ErrorMessage.DUPLICATE_DATA;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) throws ServiceException {
-        User user = userRepository.findByUserNameAndEnabled(userDTO.getUserName(), Constants.ENABLED);
-        validateUserCreated(user);
+        ApplcationUser applcationUser = userRepository.findByUserNameAndEnabled(userDTO.getUserName(), Constants.ENABLED);
+        validateUserCreated(applcationUser);
         UserRole userRole = userRoleRepository.findByUserRoleAndEnabled(userDTO.getUserRole(), Constants.ENABLED);
         return Optional.ofNullable(userDTO)
-                       .map(e -> Adapter.getInstance().convert(e, User.class))
+                       .map(e -> Adapter.getInstance().convert(e, ApplcationUser.class))
                        .map(e -> {
                              e.setUserRole(userRole);
                              e.setPassword(UserUtil.hashPassword(e.getPassword()));
@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
                        .get();
     }
 
-    private void validateUserCreated(User user) throws ServiceException {
-        if (user != null) {
+    private void validateUserCreated(ApplcationUser applcationUser) throws ServiceException {
+        if (applcationUser != null) {
             throw new ServiceException(DUPLICATE_DATA, new String[]{ModelFields.USER_NAME});
         }
     }

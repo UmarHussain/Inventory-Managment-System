@@ -5,8 +5,8 @@ import com.okta.developer.ims.dto.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.okta.developer.ims.utils.Constants.UserMessage.*;
-import static com.okta.developer.ims.utils.Constants.MessageType.*;
+import static com.okta.developer.ims.utils.constants.Constants.UserMessage.*;
+import static com.okta.developer.ims.utils.constants.Constants.MessageType.*;
 
 /***
  * A factory to create ClientResponse

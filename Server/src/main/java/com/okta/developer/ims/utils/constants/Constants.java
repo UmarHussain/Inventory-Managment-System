@@ -1,4 +1,4 @@
-package com.okta.developer.ims.utils;
+package com.okta.developer.ims.utils.constants;
 
 public class Constants {
 	public static final Integer ENABLED = 1;
