@@ -2,9 +2,9 @@ package com.okta.developer.ims.utils.factory;
 
 import com.okta.developer.ims.dto.InventoryDTO;
 import com.okta.developer.ims.model.Inventory;
-import com.okta.developer.ims.utils.Constants;
-import com.okta.developer.ims.utils.Constants.ModelFields;
-import com.okta.developer.ims.utils.Constants.ModelSQLFields;
+import com.okta.developer.ims.utils.constants.Constants;
+import com.okta.developer.ims.utils.constants.Constants.ModelFields;
+import com.okta.developer.ims.utils.constants.Constants.ModelSQLFields;
 import com.okta.developer.ims.utils.validation.ValidationUtils;
 import org.springframework.data.jpa.domain.Specification;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.okta.developer.ims.utils.Constants.UserMessage.*;
+import static com.okta.developer.ims.utils.constants.Constants.UserMessage.*;
 
 @CrossOrigin
 @RestController

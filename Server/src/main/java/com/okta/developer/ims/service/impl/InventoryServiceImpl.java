@@ -18,7 +18,7 @@ import com.okta.developer.ims.model.InventoryType;
 import com.okta.developer.ims.repository.InventoryRepository;
 import com.okta.developer.ims.repository.InventoryTypeRepository;
 import com.okta.developer.ims.service.InventoryService;
-import com.okta.developer.ims.utils.Constants;
+import com.okta.developer.ims.utils.constants.Constants;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
