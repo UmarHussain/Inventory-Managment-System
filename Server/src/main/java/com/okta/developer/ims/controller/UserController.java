@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static com.okta.developer.ims.utils.Constants.UserMessage.DATA_CREATED;
+import static com.okta.developer.ims.utils.constants.Constants.UserMessage.DATA_CREATED;
 
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/userService/v1")
 public class UserController {
@@ -26,9 +26,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/create")
+    @PostMapping("/signup")
     ClientResponse<UserDTO> createInventory(@RequestBody @Valid UserDTO userDTO) throws BaseException {
-        LOGGER.info("Creating User");
+        LOGGER.info("Creating ApplcationUser");
         return Optional.ofNullable(userDTO)
                 .map(user -> {
                     try {

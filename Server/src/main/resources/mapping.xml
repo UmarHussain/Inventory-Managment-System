@@ -20,7 +20,7 @@
         <class-b>com.okta.developer.ims.model.Inventory</class-b>
     </mapping>
     <mapping map-null="false">
-        <class-a>com.okta.developer.ims.model.User</class-a>
+        <class-a>com.okta.developer.ims.model.ApplcationUser</class-a>
         <class-b>com.okta.developer.ims.dto.UserDTO</class-b>
         <field>
             <a>id</a>

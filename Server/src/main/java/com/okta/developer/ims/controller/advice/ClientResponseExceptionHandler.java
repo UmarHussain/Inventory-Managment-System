@@ -3,7 +3,7 @@ package com.okta.developer.ims.controller.advice;
 import com.okta.developer.ims.dto.ClientResponse;
 import com.okta.developer.ims.dto.Message;
 import com.okta.developer.ims.exception.BaseException;
-import com.okta.developer.ims.utils.Constants;
+import com.okta.developer.ims.utils.constants.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
