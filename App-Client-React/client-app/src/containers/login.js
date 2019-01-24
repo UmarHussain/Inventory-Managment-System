@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import {BrowserRouter as Router} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
 
 
 export default class Login extends React.Component{
@@ -26,7 +27,15 @@ export default class Login extends React.Component{
     }
     
     handleSubmit = event => {
+        event.preventDefault();
         alert("UserName:" + this.state.userName + " Password:" + this.state.password );
+        let url = "http://localhost:8080/login";
+        axios.post(url, {
+            userName : this.state.userName,
+            password : this.state.password
+        }).then(response => {
+            alert(JSON.stringify(response.headers.authorization));
+        });
     }
 
     render(){
