@@ -2,10 +2,6 @@ import React from 'react';
 import Inventory from './Inventory';
 
 class InventoryList extends React.Component{
-
-    // constructor(props) {
-	// 	super(props);
-	// }
     
     render(){
 

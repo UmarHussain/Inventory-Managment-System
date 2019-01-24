@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import {BrowserRouter as Router} from 'react-router-dom';
+import { CustomAlert } from '../components/CustomAlert';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 
@@ -12,7 +12,9 @@ export default class Login extends React.Component{
 
         this.state = {
             userName : "",
-            password : ""
+            password : "",
+            error: "",
+            showError: false
         };
     }
 
@@ -28,19 +30,28 @@ export default class Login extends React.Component{
     
     handleSubmit = event => {
         event.preventDefault();
-        alert("UserName:" + this.state.userName + " Password:" + this.state.password );
         let url = "http://localhost:8080/login";
-        axios.post(url, {
+        let payload = {
             userName : this.state.userName,
             password : this.state.password
-        }).then(response => {
-            alert(JSON.stringify(response.headers.authorization));
-        });
+        }
+        axios.post(url, payload).then(response => {
+            if(response.status == 200){
+                alert("Welcome user :" + this.state.userName);
+                sessionStorage.setItem("jwtToken", response.headers.authorization);
+            } else {
+                alert("Login Failed");    
+            }
+        }).catch(err => {
+                this.setState({error : "Login Failed", showError: true})
+            });
     }
 
     render(){
         return (
             <div className="container login">
+                <CustomAlert type="danger" message={this.state.error} show={this.state.showError}
+                />
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="userName" bsSize="large">
                         <ControlLabel>User Name</ControlLabel>
@@ -60,11 +71,13 @@ export default class Login extends React.Component{
                         type="password"
                         />
                     </FormGroup>
+                    <hr/>
                     <Button
                         block
                         bsSize="large"
                         disabled={!this.validateForm()}
                         type="submit"
+                        className="btn btn-primary"
                     >
                         Login
                     </Button>
