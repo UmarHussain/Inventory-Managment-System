@@ -39,8 +39,9 @@ export default class Login extends React.Component{
             if(response.status == 200){
                 alert("Welcome user :" + this.state.userName);
                 sessionStorage.setItem("jwtToken", response.headers.authorization);
+                window.location = "/dashboard";
             } else {
-                alert("Login Failed");    
+                this.setState({error : "Login Failed", showError: true}) 
             }
         }).catch(err => {
                 this.setState({error : "Login Failed", showError: true})

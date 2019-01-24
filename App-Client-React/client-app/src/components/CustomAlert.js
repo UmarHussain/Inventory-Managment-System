@@ -2,9 +2,7 @@ import React from 'react';
 import { Alert } from "react-bootstrap";
 
 export class CustomAlert extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
 
     if (this.props.show) {

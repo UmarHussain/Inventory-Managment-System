@@ -9,10 +9,15 @@ class InventoryTable extends React.Component{
 		this.state = {inventories: []};
     }
     
-    componentDidMount() {
-        axios.post('http://localhost:8080/inventoryService/v1/search',{}).then(response => {
+    componentWillMount() {
+        let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem("jwtToken")
+        };
+        axios.post('http://localhost:8080/inventoryService/v1/search',{}, {headers : headers})
+            .then(response => {
             this.setState({inventories : response.data.data});
-        });
+        }).catch(err => {alert(err)});
     }
     
     render(){
