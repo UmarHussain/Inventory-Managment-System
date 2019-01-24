@@ -1,10 +1,14 @@
 body{
-    background-color: #dbdfe2;
+
 }
 
 .login{
     width: 50%;
     margin: 0px auto;
     margin-top: 10%;
+}
+
+.inventory-table{
+    padding: 5%;
 }
 

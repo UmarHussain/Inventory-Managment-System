@@ -22,7 +22,9 @@ class InventoryTable extends React.Component{
     
     render(){
         return (
-			<InventoryList inventories={this.state.inventories}/>
+            <div className="inventory-table">
+			    <InventoryList inventories={this.state.inventories}/>
+            </div>
 		)
     }
 
